@@ -1,0 +1,41 @@
+{
+    "name": "Screen Recorder",
+    "description" : "Record Screen",
+    "version": "1.0",
+    "manifest_version": 2,
+    "browser_action": {
+        //"default_popup": "hello.html", // 19px-square PNG file.
+        "default_title": "Enable",
+        "default_icon": "./images/record_off.png"
+    },
+    // "commands": {
+    //     "_execute_browser_action": {
+    //       "suggested_key": {
+    //         "default": "Ctrl+Shift+F",
+    //         "mac": "MacCtrl+Shift+F"
+    //       },
+    //       "description": "Opens hello.html"
+    //     }
+    // },
+    "background": {
+        "scripts": [
+          "./background/background.signaling.js"
+        ]
+      },
+    "content_scripts": [
+        {
+          "matches": [
+            "*://*/*"
+          ],
+          "js": [
+            "./content_scripts/content.signaling.js"
+          ]
+        }
+      ],
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "storage",
+        "tabCapture"
+    ]
+}
