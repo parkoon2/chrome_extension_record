@@ -1,7 +1,7 @@
 const start =  document.querySelector('#start')
 const data = 'capture:start'
 
-console.log(data)
+//console.log(data)
 
 start.addEventListener('click', handleRecordStart)
 

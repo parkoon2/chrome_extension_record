@@ -6,7 +6,7 @@ const Record = ( function () {
     let recorder;
 
     function Record () {
-        console.log( 'constructor' );
+        //console.log( 'constructor' );
         let self = this;
 
         recorder = null;
@@ -25,13 +25,13 @@ const Record = ( function () {
 
     Record.prototype = {
         start: function () {
-            console.log( 'start' );
+            //console.log( 'start' );
 
 
             navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {
-                console.log('stream', stream);
+                //console.log('stream', stream);
             }, function(e) {
-                console.log('webcam not ok');
+                //console.log('webcam not ok');
             });
       
 
@@ -61,7 +61,7 @@ const Record = ( function () {
 
                     // try {
                     //     recorder = new MediaRecorder(windowStream, {mimeType: 'video/webm;codecs=vp8'});
-                    //     console.log('recorder')
+                    //     //console.log('recorder')
                     //   } catch (e) {
                     //     console.error('Exception while creating MediaRecorder: ' + e);
                     //     alert('Exception while creating MediaRecorder: '
@@ -72,7 +72,7 @@ const Record = ( function () {
                    
                     recorder.start();
                     recorder.ondataavailable = function(e) {
-                        console.log('ondataavailable');
+                        //console.log('ondataavailable');
                         const link = document.createElement('a');
                         link.setAttribute('href', window.URL.createObjectURL(e.data));
                         link.setAttribute('download', 'video_' + Math.floor((Math.random() * 999999)) + '.webm');
@@ -81,14 +81,14 @@ const Record = ( function () {
                         link.click();
                         document.body.removeChild(link);
                     }
-                    console.log('시핮ㄱ한다...')
+                    //console.log('시핮ㄱ한다...')
                     
                 })
             })
         },
         
         stop: function () {
-            console.log( 'stop' );
+            //console.log( 'stop' );
         }
     }
 
@@ -127,7 +127,7 @@ const Record = ( function () {
 
     const appendVideo = function ( stream ) {
         document.body.appendChild( video );
-        console.log( URL.createObjectURL( stream ) )
+        //console.log( URL.createObjectURL( stream ) )
         video.src = URL.createObjectURL( stream );
         video.style.height = '200px'
         video.style.width = '200px'

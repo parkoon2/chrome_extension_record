@@ -6,7 +6,7 @@
     "browser_action": {
         //"default_popup": "hello.html", // 19px-square PNG file.
         "default_title": "Enable",
-        "default_icon": "./images/record_off.png"
+        "default_icon": "images/record_off.png"
     },
     // "commands": {
     //     "_execute_browser_action": {
@@ -19,7 +19,8 @@
     // },
     "background": {
         "scripts": [
-          "./background/background.signaling.js"
+          "background/background.status.js",
+          "background/background.signaling.js"
         ]
       },
     "content_scripts": [
@@ -28,7 +29,7 @@
             "*://*/*"
           ],
           "js": [
-            "./content_scripts/content.signaling.js"
+            "content_scripts/content.signaling.js"
           ]
         }
       ],

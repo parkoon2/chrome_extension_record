@@ -83,7 +83,7 @@ var constraints = {
 navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 function successCallback(stream) {
-  console.log('getUserMedia() got stream: ', stream);
+  //console.log('getUserMedia() got stream: ', stream);
   window.stream = stream;
   if (window.URL) {
     gumVideo.src = window.URL.createObjectURL(stream);
@@ -93,12 +93,12 @@ function successCallback(stream) {
 }
 
 function errorCallback(error) {
-  console.log('navigator.getUserMedia error: ', error);
+  //console.log('navigator.getUserMedia error: ', error);
 }
 
 // navigator.mediaDevices.getUserMedia(constraints)
 // .then(function(stream) {
-//   console.log('getUserMedia() got stream: ', stream);
+//   //console.log('getUserMedia() got stream: ', stream);
 //   window.stream = stream; // make available to browser console
 //   if (window.URL) {
 //     gumVideo.src = window.URL.createObjectURL(stream);
@@ -106,13 +106,13 @@ function errorCallback(error) {
 //     gumVideo.src = stream;
 //   }
 // }).catch(function(error) {
-//   console.log('navigator.getUserMedia error: ', error);
+//   //console.log('navigator.getUserMedia error: ', error);
 // });
 
 function handleSourceOpen(event) {
-  console.log('MediaSource opened');
+  //console.log('MediaSource opened');
   sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
-  console.log('Source buffer: ', sourceBuffer);
+  //console.log('Source buffer: ', sourceBuffer);
 }
 
 function handleDataAvailable(event) {
@@ -122,7 +122,7 @@ function handleDataAvailable(event) {
 }
 
 function handleStop(event) {
-  console.log('Recorder stopped: ', event);
+  //console.log('Recorder stopped: ', event);
 }
 
 function toggleRecording() {
@@ -141,10 +141,10 @@ function startRecording() {
   var options = {mimeType: 'video/webm', bitsPerSecond: 100000};
   recordedBlobs = [];
 
-  console.log('window.stream', window.stream)
+  //console.log('window.stream', window.stream)
   mediaRecorder = new MediaRecorder(window.stream, options);
 
-  console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+  //console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
 
   recordButton.textContent = 'Stop Recording';
   playButton.disabled = true;
@@ -152,12 +152,12 @@ function startRecording() {
   mediaRecorder.onstop = handleStop;
   mediaRecorder.ondataavailable = handleDataAvailable;
   mediaRecorder.start(10); // collect 10ms of data
-  console.log('MediaRecorder started', mediaRecorder);
+  //console.log('MediaRecorder started', mediaRecorder);
 }
 
 function stopRecording() {
   mediaRecorder.stop();
-  console.log('Recorded Blobs: ', recordedBlobs);
+  //console.log('Recorded Blobs: ', recordedBlobs);
   recordedVideo.controls = true;
 }
 
@@ -171,7 +171,7 @@ function download() {
   var url = window.URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.style.display = 'none';
-  console.log(url)
+  //console.log(url)
   a.href = url;
   a.download = 'test.webm';
   document.body.appendChild(a);

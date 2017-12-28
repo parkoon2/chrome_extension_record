@@ -20,7 +20,7 @@ CoordinatedCapture = function() {
    * @param {string} [parameter] - a value to pass on
    */
   CoordinatedCapture.prototype.sendCommand = function(command, parameter) {
-    console.log(this.namespace, command, parameter, location.origin)
+    //console.log(this.namespace, command, parameter, location.origin)
     // CoordinatedCapture start 1225x979
     // CoordinatedCapture stop 6e8d1928-4c18-48ba-a33a-717a05191e02 
    
