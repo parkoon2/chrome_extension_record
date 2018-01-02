@@ -14,6 +14,8 @@ pauseButton.addEventListener('click', pauseHandler)
 videoSwitch.addEventListener('change', videoSwitchHandler)
 audioSwitch.addEventListener('change', audioSwitchHandler)
 
+document.addEventListener('DOMContentLoaded', initHandler)
+
 // capture.status(); << 안쓸듯?
 function startHandler () {
     console.log('startHandler')
@@ -22,6 +24,7 @@ function startHandler () {
         video: config.videoRecord,
         audio: config.audioRecord
     }
+    // config --> 무엇을 녹화할 것인지! video || audio // video && audio
     capture.start( recordConfig );
     
 }
@@ -43,6 +46,12 @@ function videoSwitchHandler () {
 function audioSwitchHandler () {
     config.audioRecord = audioSwitch.checked
     console.log('오디오 녹화?', config.audioRecord)
+}
+
+function initHandler () {
+    console.log('!!')
+    config.audioRecord = audioSwitch.checked
+    config.videoRecord = videoSwitch.checked
 }
 
 

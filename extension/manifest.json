@@ -19,6 +19,9 @@
     // },
     "background": {
         "scripts": [
+          // 순서 중요하네... 변수....
+          "background/background.players.js",
+          "background/background.tapCapture.js",
           "background/background.status.js",
           "background/background.signaling.js"
         ]
@@ -26,17 +29,21 @@
     "content_scripts": [
         {
           "matches": [
-            "*://*/*"
+            "http://*/*", "https://*/*"
+            
           ],
           "js": [
-            "content_scripts/content.signaling.js"
+            "content_scripts/content.signaling.js",
+            "content_scripts/content.captureMic.js",
+            "content_scripts/content.stopMic.js"
           ]
         }
       ],
     "permissions": [
+     // "http://*/*", "https://*/*",
+        "tabCapture",
         "activeTab",
         "tabs",
-        "storage",
-        "tabCapture"
+        "storage"
     ]
 }

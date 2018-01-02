@@ -16,12 +16,13 @@ const Capture = (function () {
             }, location.origin)
         }
     
-        Capture.prototype.start = function ( config ) {
-            this.sendMessage('capture:start', config)
+        Capture.prototype.start = function ( option ) {
+            console.log('!!!!!!!', option)
+            this.sendMessage('capture:start', option)
         }
 
-        Capture.prototype.stop = function ( config ) {
-            this.sendMessage('capture:stop', config)
+        Capture.prototype.stop = function ( option ) {
+            this.sendMessage('capture:stop', option)
         }
     
     
