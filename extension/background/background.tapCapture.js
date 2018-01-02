@@ -90,18 +90,66 @@ const TapCapture = (function () {
             
             console.log('Recorded Blobs: ', self.recordedChunks);
             var blob = new Blob(self.recordedChunks, {type: 'video/webm'});
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.style.display = 'none';
-            console.log(url)
-            a.href = url;
-            a.download = 'test.webm';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(function() {
-              document.body.removeChild(a);
-              window.URL.revokeObjectURL(url);
-            }, 100);
+
+            
+
+            //var blob = new Blob(recordedChunks, {type: 'audio/webm'});
+            console.log('fetch???!!!!!!!!!!!!', fetch)
+        
+            var formData = new FormData();
+           formData.append('upl', blob, 'zzzzzzzzzzzzzzzzzzzzzzzz.webm');
+           //formData.append('name', 'zero')
+            // fetch('/record/upload',
+            //   {
+            //     method: 'post',
+            //     body: formData,
+            //     headers: new Headers()
+            //   })
+            // .then(function(res) {
+            //     console.log('???')
+            //     if (res.status === 200 || res.status === 201) {
+            //         res.json().then(json => console.log(json));
+            //       } else {
+            //         console.error(res.statusText);
+            //     }
+            //   return res;
+            // })
+            // .catch(function(err){ 
+            //   console.log(err);
+            // });
+        
+            var xhr = new XMLHttpRequest(); 
+            xhr.onload = function() {
+                console.log('xzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+                if (xhr.status === 200 || xhr.status === 201) {
+                   // console.log(xhr.responseText);
+                } else {
+                    //console.error(xhr.responseText);
+                }
+            };
+            xhr.open('POST', 'http://localhost:7777/record/upload');
+            xhr.send(formData); // 폼 데이터 객체 전송
+
+
+
+
+
+
+
+
+
+            // var url = window.URL.createObjectURL(blob);
+            // var a = document.createElement('a');
+            // a.style.display = 'none';
+            // console.log(url)
+            // a.href = url;
+            // a.download = 'test.webm';
+            // document.body.appendChild(a);
+            // a.click();
+            // setTimeout(function() {
+            //   document.body.removeChild(a);
+            //   window.URL.revokeObjectURL(url);
+            // }, 100);
         })
     }
 

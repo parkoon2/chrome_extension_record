@@ -7,6 +7,7 @@ const multer = require( 'multer' )
 //https://stackoverflow.com/questions/23986953/blob-saved-as-object-object-nodejs
 //https://www.zerocho.com/category/HTML/post/59465380f2c7fb0018a1a263
 //https://www.zerocho.com/category/HTML/post/594bc4e9991b0e0018fff5ed
+//http://bcho.tistory.com/1078
 
 app.use(express.static(path.join(__dirname, './public')));
 
@@ -17,12 +18,27 @@ app.get('/record', function (req, res) {
 
 
 
-var upload = multer({ dest: __dirname + '/../public/uploads/' });
+//var upload = multer({ dest: path.join(__dirname , 'public/uploads/') });
+
+const upload = multer({
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, path.join(__dirname , 'public/uploads/'));
+      },
+      filename: function (req, file, cb) {
+          console.log('file.originalname', path.extname(file.originalname))
+        cb(null, new Date().valueOf() + path.extname(file.originalname));
+      }
+    }),
+});
+
 var type = upload.single('upl');
-app.post('/api/test', type, function (req, res) {
-  console.log(req.body);
-  console.log(req.file);
+app.post('/record/upload', type, function (req, res) {
+  console.log(req);
   // do stuff with file
+  res.status(204).end();
+
+
 });
 
 
