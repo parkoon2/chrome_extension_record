@@ -1,9 +1,24 @@
-const video = document.createElement( 'video' );
-let videoPlayers = []
+const VideoPlayer = (function () {
+    
+    function VideoPlayer () {
+        this.video = document.createElement( 'video' );
+        this.videoPlayers = []
+    }
 
-function startVideoPlayer ( stream ) {
-    document.body.appendChild( video );
-    video.src = URL.createObjectURL( stream );
-    video.play();
-    videoPlayers.push( video )
-}
+    VideoPlayer.prototype.start = function ( stream ) {
+        document.body.appendChild( this.video );
+        this.video.src = URL.createObjectURL( stream );
+        this.video.play();
+        this.videoPlayers.push( this.video )
+    }
+
+    VideoPlayer.prototype.getPlayers = function () {
+        return this.videoPlayers
+    }
+
+    VideoPlayer.prototype.clearPlayers = function () {
+        this.videoPlayers = []
+    }
+
+    return VideoPlayer;
+})()

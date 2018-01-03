@@ -3,8 +3,9 @@
     'use strict'
     // Content Scripts <---> Background
     
-    const tapCapture = new TapCapture()
-    
+    const tabRecorder = new TabRecorder()
+    const videoPlayer = new VideoPlayer()
+    const blobSender = new BlobSender()
 
     chrome.runtime.onMessage.addListener(function (event) {
         switch (event.cmd) {
@@ -15,13 +16,19 @@
                 break;
 
             case 'capture:start':
-                const topOption = {
+                const option = {
                     isVideo: event.param.video,
-                    isAudio: event.param.audio
+                    isAudio: event.param.audio,
+                    resolution: {
+                        width: 720,
+                        height: 480
+                    },
+                    echoCancellation: true,
+                    timeslice: 1
                 }
                 if ( event.param.video || event.param.audio ) {
-                    tapCapture.do( topOption ).then( function () {
-                        console.log('시작중')
+                    tabRecorder.start( option ).then( function (stream) {
+                        videoPlayer.start( stream )
                     });
 
                     //chrome.tabs.executeScript(null, {file: 'content.captureMic.js'});
@@ -53,13 +60,29 @@
                 break;
 
             case 'capture:stop':
-                tapCapture.done();
+                tabRecorder.stop().then( function (blob) {
+                    console.log('sdfkjasdlkfjasdkfjaskdlfjkasdlfjskladfjklasdfjklasdfjklasdjfklsadjfklsdfjkl')
+                    videoPlayer.getPlayers().forEach( function (player) {
+                        player.src = null
+                    })
+                    videoPlayer.clearPlayers()
 
-                //chrome.tabs.executeScript(null, {file: 'content.stopMic.js'});
-                
+                    let userId = 'ctest1' // 나중에 받아 올 것 / 이것은 폴더...
+                    let roomId = new Date().valueOf() + 'room' // 나중에 받아 올 것 / 이것은 폴더...
+                   
+                    blobSender.sendToServer({
+                        blobData: blob,
+                       // url: 'http://localhost:7777/record/upload/' + userId,
+                        url: 'https://localhost:8001/record/upload/' + userId,
+                        filename: roomId + '_tab',
+                        fieldname: 'record'
+                    })
+                });
+
                 notifyToContentScripts({
                     result: '녹화를 중지합니다...'
                 })
+
             break;
         }            
     })

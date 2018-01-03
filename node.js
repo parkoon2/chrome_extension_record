@@ -3,6 +3,8 @@ const express = require( 'express' );
 const app = express();
 const path = require( 'path' );
 const multer = require( 'multer' )
+
+const mkdirp = require( 'mkdirp' )
 //https://stackoverflow.com/questions/39677993/send-blob-data-to-node-using-fetch-multer-express
 //https://stackoverflow.com/questions/23986953/blob-saved-as-object-object-nodejs
 //https://www.zerocho.com/category/HTML/post/59465380f2c7fb0018a1a263
@@ -19,27 +21,43 @@ app.get('/record', function (req, res) {
 
 
 //var upload = multer({ dest: path.join(__dirname , 'public/uploads/') });
+var fs = require('fs');
 
-const upload = multer({
+
+
+
+let recordFilePath
+
+const recordUpload = multer({
     storage: multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, path.join(__dirname , 'public/uploads/'));
+      destination: function (req, file, callback) {
+      
+        recordFilePath = path.join( __dirname, '/public/rec_uploads', req.params.userId) 
+
+        mkdirp( recordFilePath, function (err) {
+          if ( err ) console.error( err )
+          else callback( null, recordFilePath )
+        });
+
+     
       },
-      filename: function (req, file, cb) {
+      filename: function (req, file, callback) {
           console.log('file.originalname', path.extname(file.originalname))
-        cb(null, new Date().valueOf() + path.extname(file.originalname));
+          console.log('req.params1.', req.params)
+       
+        callback(null, file.originalname)
       }
-    }),
+    })
 });
 
-var type = upload.single('upl');
-app.post('/record/upload', type, function (req, res) {
-  console.log(req);
+var type = recordUpload.single('record');
+app.post('/record/upload/:userId', type, function (req, res) {
+  console.log(req.file);
   // do stuff with file
-  res.status(204).end();
-
+  res.status(200).end();
 
 });
+
 
 
 // app.get('/record4', function (req, res) {
