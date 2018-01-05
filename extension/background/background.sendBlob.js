@@ -17,9 +17,8 @@ const BlobSender = (function () {
 
             let xhr = new XMLHttpRequest(); 
             xhr.onload = function() {
-                console.log('xzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', xhr.status)
                 if ( xhr.status === 200 || xhr.status === 201 ) {
-                    console.log( xhr ); // 성공
+                    console.log( xhr.status, 'TAB은  모두 업로드 되었답니다.' ); // 성공
                 } else {
                     console.error( xhr.responseText ); // 실패
                 }

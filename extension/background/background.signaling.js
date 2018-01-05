@@ -61,19 +61,19 @@
 
             case 'capture:stop':
                 tabRecorder.stop().then( function (blob) {
-                    console.log('sdfkjasdlkfjasdkfjaskdlfjkasdlfjskladfjklasdfjklasdfjklasdjfklsadjfklsdfjkl')
                     videoPlayer.getPlayers().forEach( function (player) {
                         player.src = null
                     })
                     videoPlayer.clearPlayers()
 
                     let userId = 'ctest1' // 나중에 받아 올 것 / 이것은 폴더...
-                    let roomId = new Date().valueOf() + 'room' // 나중에 받아 올 것 / 이것은 폴더...
+                    let roomId = 'room' // 나중에 받아 올 것 / 이것은 폴더...
                    
                     blobSender.sendToServer({
                         blobData: blob,
-                       // url: 'http://localhost:7777/record/upload/' + userId,
-                        url: 'https://localhost:8001/record/upload/' + userId,
+                        url: 'http://localhost:7777/record/upload/' + userId,
+                       // url: 'https://localhost:8001/record/upload/' + userId,
+                        //url: 'https://192.168.2.253:8001/record/upload/' + userId,
                         filename: roomId + '_tab',
                         fieldname: 'record'
                     })

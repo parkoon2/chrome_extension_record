@@ -1,6 +1,6 @@
 const startButton = document.querySelector('#start')
 const endtButton = document.querySelector('#end')
-const pauseButton = document.querySelector('#pause')
+//const pauseButton = document.querySelector('#pause')
 const videoSwitch = document.querySelector('#videoSwitch')
 const audioSwitch = document.querySelector('#audioSwitch')
 
@@ -9,7 +9,7 @@ const config = new Config();
 
 startButton.addEventListener('click', startHandler)
 endtButton.addEventListener('click', endHandler)
-pauseButton.addEventListener('click', pauseHandler)
+//pauseButton.addEventListener('click', pauseHandler)
 
 videoSwitch.addEventListener('change', videoSwitchHandler)
 audioSwitch.addEventListener('change', audioSwitchHandler)

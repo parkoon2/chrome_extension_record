@@ -20,8 +20,12 @@ const TabRecorder = (function () {
                 constraints.videoConstraints = {
                     mandatory: {
                         chromeMediaSource: 'tab',
-                        maxWidth: option.resolution.width,
-                        maxHeight: option.resolution.height,
+                        // maxWidth: option.resolution.width,
+                        // maxHeight: option.resolution.height,                        
+                        maxWidth: 300,
+                        maxHeight: 200,
+                        maxFrameRate: 17
+                        //minFrameRate: 5
                       } 
                 }
             }
