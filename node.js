@@ -64,20 +64,26 @@ app.post('/record/upload/:userId', type, recordHandler )
 function recordHandler ( req, res ) {
   console.log(req.file);
   
-  records.push( req.file.path)
+  records.push( req.file.path )
   // do stuff with file
-  res.status(200).end();
+  //res.send('hello');
+  //
+  if ( records.length === 1) { 
+    res.send( null )
+  }
+
     if ( records.length === 2) {
-      console.log('records[0]', records[0])
-      console.log('records[1]', records[1])
       ffmpeg.mixing( {
         videoSource: records[0].match( /tab/i ) ? records[0] : records[1],
         audioSource: records[0].match( /mic/i ) ? records[0] : records[1],
         output : path.join( req.file.destination, new Date().valueOf() +  '.webm' )
        //output : 'zz'
+      }).then( function (result) {
+        console.log( '서버에 파일 업로드...')
+        res.send( result )
+        records = []
       })
   
-      records = []
     }
 
 

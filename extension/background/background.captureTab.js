@@ -1,31 +1,27 @@
-const TabRecorder = (function () {
+const TabCapturer = (function () {
 
     let recorder, recordedChunks
 
-    function TabRecorder () {
-        this.recorder = null
-        this.recordedChunks = null
-        this.videoPlayers = null
-    }
+    function TabCapturer () { }
     
-    TabRecorder.prototype.start = function ( option ) {
-
-        const constraints = {
-            video: option.isVideo ? true : false,
-            audio: option.isAudio ? true : false, 
-        };
+    TabCapturer.prototype.start = function ( option ) {
         return new Promise( function (resolve, reject) {
-
+            
+            const constraints = {
+                video: option.isVideo ? true : false,
+                audio: option.isAudio ? true : false, 
+            };
+            
             if ( option.isVideo ) {
                 constraints.videoConstraints = {
                     mandatory: {
                         chromeMediaSource: 'tab',
-                        // maxWidth: option.resolution.width,
-                        // maxHeight: option.resolution.height,                        
-                        maxWidth: 300,
-                        maxHeight: 200,
-                        maxFrameRate: 17
-                        //minFrameRate: 5
+                        maxWidth: option.width,
+                        maxHeight: option.height,
+                        minWidth: option.width,
+                        minHeight: option.height,
+                        maxFrameRate: option.framrate,
+                        minFrameRate: option.framrate - 2
                       } 
                 }
             }
@@ -38,9 +34,6 @@ const TabRecorder = (function () {
                 }
             }
 
-            console.log('constraints', constraints)
-            
-
             chrome.tabs.query( { active : true }, function ( tab ) {
                 chrome.tabCapture.capture( constraints, captureHandler );
             });
@@ -50,6 +43,7 @@ const TabRecorder = (function () {
                 recordedChunks = []
                 recorder = new MediaRecorder( stream )
                 recorder.ondataavailable = function ( event ) {
+                    console.log('video data', event.data)
                     if ( event.data.size > 0 ) recordedChunks.push( event.data );
                 }
                 recorder.start( option.timeslice * 1000 ) // timeslice
@@ -60,7 +54,7 @@ const TabRecorder = (function () {
         })
     }
 
-    TabRecorder.prototype.stop = function () {
+    TabCapturer.prototype.stop = function () {
         return new Promise( function (resolve, reject) {
             var blob = new Blob(recordedChunks, {type: 'video/webm'});
 
@@ -76,7 +70,7 @@ const TabRecorder = (function () {
         })
     }       
 
-    return TabRecorder;
+    return TabCapturer;
 })()
 
 

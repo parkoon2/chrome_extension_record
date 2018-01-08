@@ -20,6 +20,8 @@ const BlobSender = (function () {
             xhr.onload = function() {
                 if ( xhr.status === 200 || xhr.status === 201 ) {
                     console.log( xhr.status, '마이크는 모두 업로드 되었답니다.' ); // 성공
+
+                    resolve( xhr.response )
             
                 } else {
                     console.error( xhr.responseText ); // 실패

@@ -5,7 +5,7 @@
     "manifest_version": 2,
     "browser_action": {
         //"default_popup": "hello.html", // 19px-square PNG file.
-        "default_title": "Enable",
+        "default_title": "녹화 불가능",
         "default_icon": "images/record_off.png"
     },
     // "commands": {
@@ -23,7 +23,7 @@
           
           "background/background.players.js",
           "background/background.sendBlob.js",
-          "background/background.recordTab.js",
+          "background/background.captureTab.js",
           "background/background.status.js",
           "background/background.signaling.js"
         ]

@@ -10,55 +10,44 @@ const FFmpeg = {
 
     mixing: function ( data ) {
         
-        this.videoSource = data.videoSource
-        this.audioSource = data.audioSource
-        this.output = data.output
+        let self = this;
+        
+        self.videoSource = data.videoSource
+        self.audioSource = data.audioSource
+        self.output = data.output
 
-        console.log(this.output)
 
-        return new Promise (function (req, res) {
-            // ffmpeg -y 
-            // -i video.webm 
-            // -i audio.webm 
-            // -filter_complex "[0:a][1:a]amerge=inputs=2[a]" 
-            // -map 0:v 
-            // -map "[a]" 
-            // -c:v copy 
-            // -c:a libvorbis 
-            // -ac 2 
-            // test.webm
+        return new Promise ( function (resolve, reject) {
+
             let args = [
                 '-y', 
-                '-i', this.videoSource, 
-                '-i', this.audioSource,  
+                '-i', self.videoSource, 
+                '-i', self.audioSource,  
                 '-filter_complex', '[0:a][1:a]amerge=inputs=2[a]', 
                 '-map', '0:v' ,
                 '-map', '[a]', 
                 '-c:v', 'copy', 
                 '-c:a', 'libvorbis', 
                 '-ac', '2', 
-                `${ this.output }`
+                `${ self.output }`
             ]
 
-            let ffmpegPath = this.path.join( __dirname, '../ffmpeg/ffmpeg')
-            this.process = this.spawn( ffmpegPath, args );
+            let ffmpegPath = self.path.join( __dirname, '../ffmpeg/ffmpeg')
+            self.process = self.spawn( ffmpegPath, args );
 
-            this.process.stdout.on('data', (data) => {
-                console.log(`stdout: ${data}`);
-            });
-              
-            this.process.stderr.on('data', (data) => {
-                console.log(`stderr: ${data}`);
-            });
-              
-            this.process.on('close', (code) => {
+            self.process.on( 'close', function ( code ) {
+                
                 console.log(`child process exited with code ${code}`);
+                //self.fs.unlinkSync(self.videoSource)
+                //self.fs.unlinkSync(self.audioSource)
+                
+                resolve( self.output )
             });
 
-            ffmpegConfig.process.on( 'error', function ( err ) {
+            self.process.on( 'error', function ( err ) {
                 reject( err )
             });
-        }.bind( this ))
+        })
     }
 
 }

@@ -5,54 +5,68 @@ const videoSwitch = document.querySelector('#videoSwitch')
 const audioSwitch = document.querySelector('#audioSwitch')
 
 const capture = new Capture();
-const config = new Config();
+const captureConfig = new CaptureConfig();
 
 startButton.addEventListener('click', startHandler)
-endtButton.addEventListener('click', endHandler)
-//pauseButton.addEventListener('click', pauseHandler)
+endtButton.addEventListener('click', stopHandler)
 
-videoSwitch.addEventListener('change', videoSwitchHandler)
-audioSwitch.addEventListener('change', audioSwitchHandler)
-
-document.addEventListener('DOMContentLoaded', initHandler)
-
-// capture.status(); << 안쓸듯?
-function startHandler () {
-    console.log('startHandler')
-
-    let recordConfig = {
-        video: config.videoRecord,
-        audio: config.audioRecord
+capture.on( 'recordDone', function (event) {
+    console.log('recordDone', event.detail, 'DB에 넣자넣어~')
+    let recordInfo = {
+        'eventOp' : 'Record',
+        'filepath': event.detail.filepath,
+        'roomId'  : captureConfig.roomId,
+        'userId'  : captureConfig.userId,
     }
-    // config --> 무엇을 녹화할 것인지! video || audio // video && audio
-    capture.start( recordConfig );
+    console.log('recordInfo', recordInfo)
+    captureConfig.userId = ''
+    captureConfig.roomId = ''
+})
+
+
+capture.on( 'captureStatus', function (event) {
+    console.log( 'captureStatus', event.detail.status )
+    captureConfig.enabled = event.detail.status
+})
+function startHandler () {
+
+    if ( !captureConfig.enabled ) {
+        return
+    }
     
+    capture.start({
+        video           : captureConfig.isVideo,
+        audio           : captureConfig.isAudio,
+        echoCancellation: captureConfig.isEchoCancellation,
+        noiseSuppression: captureConfig.isNoiseSuppression,
+        timeslice       : captureConfig.timeslice,
+        width           : captureConfig.width,
+        height          : captureConfig.height,
+        framerate       : captureConfig.framerate,
+    });
 }
-function endHandler () {
-    console.log('endHandler')
-    capture.stop()
-    
+function stopHandler () {
+    console.log('stopHandler')
+
+    let userId ='ctest1'
+    let roomId ='roomteset1'
+    let url = 'http://localhost:7777/record/upload/' + userId
+    let filedname = 'record'
+
+
+    captureConfig.userId = 'ctest1'
+    captureConfig.roomId = 'roomteset1'
+
+    capture.stop({
+        video : captureConfig.isVideo,
+        audio : captureConfig.isAudio,
+        filename: roomId,
+        url: url,
+        filedname: filedname
+    })
+
 }
 
 function pauseHandler () {
     console.log('pauseHandler')
 }
-
-function videoSwitchHandler () {
-    config.videoRecord = videoSwitch.checked
-    console.log('비디오 녹화?', config.videoRecord)
-}
-
-function audioSwitchHandler () {
-    config.audioRecord = audioSwitch.checked
-    console.log('오디오 녹화?', config.audioRecord)
-}
-
-function initHandler () {
-    console.log('!!')
-    config.audioRecord = audioSwitch.checked
-    config.videoRecord = videoSwitch.checked
-}
-
-
-
