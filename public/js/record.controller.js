@@ -33,6 +33,17 @@ function startHandler () {
     if ( !captureConfig.enabled ) {
         return
     }
+
+    console.log({
+        video           : captureConfig.isVideo,
+        audio           : captureConfig.isAudio,
+        echoCancellation: captureConfig.isEchoCancellation,
+        noiseSuppression: captureConfig.isNoiseSuppression,
+        timeslice       : captureConfig.timeslice,
+        width           : captureConfig.width,
+        height          : captureConfig.height,
+        framerate       : captureConfig.framerate,
+    })
     
     capture.start({
         video           : captureConfig.isVideo,
@@ -50,7 +61,7 @@ function stopHandler () {
 
     let userId ='ctest1'
     let roomId ='roomteset1'
-    let url = 'http://localhost:7777/record/upload/' + userId
+    let url = '/record/upload/' + userId
     let filedname = 'record'
 
 

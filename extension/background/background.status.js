@@ -3,28 +3,29 @@ let captureStatus = {
 }
 
 chrome.browserAction.onClicked.addListener(function() {
+
+    let common = new Common()
     
     captureStatus.enabled = captureStatus.enabled ? false : true
-    changeIcon( captureStatus.enabled )
+    
+    common.getCurrentTabId(function (tabId) {
+        common.changeIcon( captureStatus.enabled, tabId )
+    })
 
-    notifyToContentScripts({
+    common.notifyToContentScripts({
         cmd: 'status:change',
         data: captureStatus.enabled
     })
 })
 
 chrome.tabs.onUpdated.addListener(function() {
-
-    captureStatus.enabled = false
-    changeIcon( captureStatus.enabled )
+    console.log( 'update' )
+    // let common = new Common()
+    // captureStatus.enabled = false
+    
+    // common.getCurrentTabId(function (tabId) {
+    //     common.changeIcon( captureStatus.enabled, tabId )
+    // })
 })
 
-function changeIcon ( enabled ) {
-    chrome.browserAction.setIcon({
-        path: enabled ? '../images/record_on.png' : '../images/record_off.png'
-    });
 
-    chrome.browserAction.setTitle({
-        title: enabled ? '녹화 가능' : '녹화 불가능'
-    });
-}

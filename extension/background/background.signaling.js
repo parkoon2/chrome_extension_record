@@ -5,10 +5,11 @@ chrome.runtime.onMessage.addListener( function (event) {
     const tabCapturer = new TabCapturer()
     const videoPlayer = new VideoPlayer()
     const blobSender  = new BlobSender()
+    const common      = new Common()
 
     switch ( event.cmd ) {
         case 'capture:status':
-            notifyToContentScripts({
+            common.notifyToContentScripts({
                 result: captureStatus.record
             })
             break;
@@ -23,7 +24,8 @@ chrome.runtime.onMessage.addListener( function (event) {
                     height: event.param.height
                 },
                 echoCancellation: event.param.echoCancellation,
-                timeslice: event.param.timeslice
+                timeslice: event.param.timeslice,
+                framerate: event.param.framerate
             }
 
             tabCapturer.start( option ).then( function (stream) {
@@ -39,16 +41,17 @@ chrome.runtime.onMessage.addListener( function (event) {
                     player.src = null
                 })
                 videoPlayer.clearPlayers()
-   
+  
                 blobSender.sendToServer({
                     blobData: blob,
                     url: event.param.url,
                     filename: event.param.filename + '_tab',
+                    //filename: String( new Date().valueOf() ) + '_tab',
                     fieldname: event.param.filedname
                 }).then( function ( result ) {
  
                     if ( !result ) return;
-                    notifyToContentScripts({
+                    common.notifyToContentScripts({
                         cmd: 'record:done',
                         data: result
                     })
@@ -59,9 +62,9 @@ chrome.runtime.onMessage.addListener( function (event) {
 })
 
 // 현재 열려있는 탭에 메세지 보내기
-function notifyToContentScripts(message) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message);
-    });
-}
+// function notifyToContentScripts(message) {
+//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//         chrome.tabs.sendMessage(tabs[0].id, message);
+//     });
+// }
 

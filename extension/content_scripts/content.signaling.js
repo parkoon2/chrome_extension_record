@@ -7,7 +7,7 @@
     // Background ~> Content Scripts
     chrome.runtime.onMessage.addListener(function (message) {
         
-        console.log('result in content scripts', message, location.origin)
+        //console.log('result in content scripts', message, location.origin)
 
         let event, eventName
        
@@ -37,8 +37,9 @@
         
         const cmd   = event.data.cmd
         const param = event.data.param ? event.data.param : {} 
-        
-        console.log('param', param)
+        console.log('param', event.data.param)
+        console.log('해상도 ::: ', `${ param.width }by${ param.height } `)
+        console.log('FrameRate ::: ', `${ param.framerate }`)
         if ( param.audio ) {
 
             switch ( cmd ) {
@@ -57,11 +58,12 @@
                             blobData: blob,
                             url: param.url,
                             filename: param.filename + '_mic',
+                            //filename: String( new Date().valueOf() ) + '_mic',
                             fieldname: param.filedname
 
                         }).then( function (result) {
                             if ( !result ) return;
-                            console.log( ' 믹싱 끝!' )
+                            //console.log( ' 믹싱 끝!' )
                                 
                         });
                     });

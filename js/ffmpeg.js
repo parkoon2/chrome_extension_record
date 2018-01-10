@@ -38,8 +38,8 @@ const FFmpeg = {
             self.process.on( 'close', function ( code ) {
                 
                 console.log(`child process exited with code ${code}`);
-                //self.fs.unlinkSync(self.videoSource)
-                //self.fs.unlinkSync(self.audioSource)
+                self.fs.unlinkSync(self.videoSource)
+                self.fs.unlinkSync(self.audioSource)
                 
                 resolve( self.output )
             });

@@ -6,7 +6,7 @@ const TabCapturer = (function () {
     
     TabCapturer.prototype.start = function ( option ) {
         return new Promise( function (resolve, reject) {
-            
+            //console.log('option', option)
             const constraints = {
                 video: option.isVideo ? true : false,
                 audio: option.isAudio ? true : false, 
@@ -16,12 +16,12 @@ const TabCapturer = (function () {
                 constraints.videoConstraints = {
                     mandatory: {
                         chromeMediaSource: 'tab',
-                        maxWidth: option.width,
-                        maxHeight: option.height,
-                        minWidth: option.width,
-                        minHeight: option.height,
-                        maxFrameRate: option.framrate,
-                        minFrameRate: option.framrate - 2
+                        maxWidth: option.resolution.width,
+                        maxHeight: option.resolution.height,
+                        minWidth: option.resolution.width,
+                        minHeight: option.resolution.height,
+                        maxFrameRate: option.framerate,
+                        minFrameRate: option.framerate - 2
                       } 
                 }
             }
@@ -33,6 +33,7 @@ const TabCapturer = (function () {
                       }
                 }
             }
+            console.log('constraints', constraints)
 
             chrome.tabs.query( { active : true }, function ( tab ) {
                 chrome.tabCapture.capture( constraints, captureHandler );
@@ -72,30 +73,3 @@ const TabCapturer = (function () {
 
     return TabCapturer;
 })()
-
-
-
-
-// 소리 안나오는거 해결...
-
-function initVideoPlayer(stream) {
-    //videoPlayers = []
-        console.log('눠ㅛㅣ핰/', document)
-        // var videoPlayer = document.createElement('video');
-        // videoPlayer.muted = !enableTabCaptureAPI;
-        // videoPlayer.volume = !!enableTabCaptureAPI;
-        // videoPlayer.src = URL.createObjectURL(stream);
-    
-        // videoPlayer.play();
-    
-        // videoPlayers.push(videoPlayer);
-}
-
-// 끌 때!
-// try {
-//     videoPlayers.forEach(function(player) {
-//         player.src = null;
-//     });
-//     videoPlayers = [];
-// } catch (e) {}
-    

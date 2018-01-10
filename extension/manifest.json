@@ -20,12 +20,13 @@
     "background": {
         "scripts": [
           // 순서 중요하네... 변수....
-          
+          "background/background.common.js",
           "background/background.players.js",
           "background/background.sendBlob.js",
           "background/background.captureTab.js",
           "background/background.status.js",
-          "background/background.signaling.js"
+          "background/background.signaling.js",
+          "background/background.captureDesktop.js"
         ]
       },
     "content_scripts": [
@@ -37,15 +38,17 @@
           "js": [
             "content_scripts/content.recordMic.js",
             "content_scripts/content.sendBlob.js",
-            "content_scripts/content.signaling.js"
+            "content_scripts/content.signaling.js",
+            "content_scripts/content.signaling_desk.js"
           ]
         }
       ],
     "permissions": [
-     // "http://*/*", "https://*/*",
+      "http://*/*", "https://*/*",
         "tabCapture",
         "activeTab",
         "tabs",
-        "storage"
+        "storage",
+        "desktopCapture"
     ]
 }

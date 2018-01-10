@@ -5,9 +5,9 @@ const CaptureConfig = (function () {
         enabled: false,
         video: {
             usage: true,
-            width: 720,
-            height: 480,
-            framerate: 6
+            width: 1920,
+            height: 1080,
+            framerate: 7
         },
         audio: {
             usage: true,
@@ -18,7 +18,7 @@ const CaptureConfig = (function () {
             userId: '',
             roomId: '',
         },
-        timeslice: 1,
+        timeslice: 1
 
     }
 

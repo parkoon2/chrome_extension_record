@@ -43,7 +43,7 @@ const MicRecorder = (function () {
     
     
         
-        console.log('fetch???!!!!!!!!!!!!', fetch)
+        //.log('fetch???!!!!!!!!!!!!', fetch)
     
         var formData = new FormData();
         formData.append('record', blob, 'blobby111.webm');
