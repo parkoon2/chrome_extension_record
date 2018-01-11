@@ -19,7 +19,7 @@ chrome.browserAction.onClicked.addListener(function() {
 })
 
 chrome.tabs.onUpdated.addListener(function() {
-    console.log( 'update' )
+    console.log( 'Chrome Tab Update' )
     // let common = new Common()
     // captureStatus.enabled = false
     

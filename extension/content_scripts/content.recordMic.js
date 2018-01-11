@@ -5,7 +5,7 @@ const MicRecorder = (function () {
     function MicRecorder () { }
 
     MicRecorder.prototype.start = function ( option ) {
-        console.log('MIC CAPTURE START') // https://addpipe.com/blog/audio-constraints-getusermedia/
+        console.log('>>>>>>>>>> MIC CAPTURE START <<<<<<<<<<') 
         
         const constraints = {
             video: false,
@@ -21,7 +21,6 @@ const MicRecorder = (function () {
             
             recorder = new MediaRecorder( stream )
             recorder.ondataavailable = function ( event ) {
-                console.log('audio data', event.data)
                 if ( event.data.size > 0 ) recordedChunks.push( event.data );
             }
             recorder.start( option.timeslice * 1000 ) 
@@ -32,35 +31,17 @@ const MicRecorder = (function () {
     }
 
     MicRecorder.prototype.stop = function () {
-        console.log('MIC CAPTURE STOP')
         return new Promise( function (resolve, reject) {
-            let blob = new Blob( recordedChunks, { type: 'audio/webm' });
-            clearTrack()
-            recorder.stop()
-            resolve( blob )
-        })
-
-    
-    
-        
-        //.log('fetch???!!!!!!!!!!!!', fetch)
-    
-        var formData = new FormData();
-        formData.append('record', blob, 'blobby111.webm');
- 
-    
-        var xhr = new XMLHttpRequest(); 
-        xhr.onload = function() {
-            console.log('xzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
-            if (xhr.status === 200 || xhr.status === 201) {
-               // console.log(xhr.responseText);
-            } else {
-                //console.error(xhr.responseText);
+            console.log('>>>>>>>>>> MIC CAPTURE END <<<<<<<<<<')
+            try {
+                let blob = new Blob( recordedChunks, { type: 'audio/webm' });
+                clearTrack()
+                recorder.stop()
+                resolve( blob )
+            } catch ( err ) {
+               reject( err )
             }
-        };
-        xhr.open('POST', 'http://localhost:7777/record/upload/hahahahahahah');
-        xhr.send(formData); // 폼 데이터 객체 전송
-
+        })
     }
 
     function clearTrack () {
@@ -68,16 +49,6 @@ const MicRecorder = (function () {
             track.stop()
         })
     }
-
-
     return MicRecorder
 
 })();
-
-function captureStart () {
-
-}
-
-function captureStop () {
-   
-}

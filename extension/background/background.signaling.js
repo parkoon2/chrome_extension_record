@@ -46,7 +46,6 @@ chrome.runtime.onMessage.addListener( function (event) {
                     blobData: blob,
                     url: event.param.url,
                     filename: event.param.filename + '_tab',
-                    //filename: String( new Date().valueOf() ) + '_tab',
                     fieldname: event.param.filedname
                 }).then( function ( result ) {
  
@@ -60,11 +59,3 @@ chrome.runtime.onMessage.addListener( function (event) {
         break;
     }            
 })
-
-// 현재 열려있는 탭에 메세지 보내기
-// function notifyToContentScripts(message) {
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//         chrome.tabs.sendMessage(tabs[0].id, message);
-//     });
-// }
-

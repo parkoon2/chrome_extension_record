@@ -1,5 +1,3 @@
-console.log('content.captureMic.js')
-
 const BlobSender = (function () {
 
     
@@ -7,27 +5,29 @@ const BlobSender = (function () {
 
     BlobSender.prototype.sendToServer = function ( option ) {
         return new Promise( function (resolve, reject) {
-            const argsErr = 'check arguments : object > blobData, url, filename, fieldname',
-                blob = option.blobData ? option.blobData : reject( argsErr ),
-                url = option.url ? option.url : reject( argsErr ),
-                filename = option.filename ? option.filename : reject( argsErr )
-                fieldname = option.fieldname ? option.fieldname : reject( argsErr )
+            
+            const argsErr   = 'check arguments : object > blobData, url, filename, fieldname',
+                  blob      = option.blobData  ? option.blobData  : reject( argsErr ),
+                  url       = option.url       ? option.url       : reject( argsErr ),
+                  filename  = option.filename  ? option.filename  : reject( argsErr ),
+                  fieldname = option.fieldname ? option.fieldname : reject( argsErr )
 
-            let formData = new FormData();
-            formData.append(fieldname/*'upl'*/, blob, filename + '.webm');
+            let formData = new FormData(),
+                xhr      = new XMLHttpRequest(); 
 
-            let xhr = new XMLHttpRequest(); 
+            formData.append( fieldname/*'record'*/, blob, filename + '.webm' );
+
             xhr.onload = function() {
                 if ( xhr.status === 200 || xhr.status === 201 ) {
-                    console.log( xhr.status, 'MIC Upload Success.' ); // 성공
+                    console.log( xhr.status, 'MIC Upload Success' )
 
                     resolve( xhr.response )
             
                 } else {
-                    console.error( xhr.responseText ); // 실패
+                    console.error( xhr.status, xhr.responseText )
                 }
             };
-            xhr.open( 'POST', url/*'http://localhost:7777/record/upload'*/ );
+            xhr.open( 'POST', url );
             xhr.send( formData ); // 폼 데이터 객체 전송
 
         })
