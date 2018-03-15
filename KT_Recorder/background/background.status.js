@@ -6,7 +6,10 @@ chrome.browserAction.onClicked.addListener(function() {
 
     let common = new Common()
     
-    captureStatus.enabled = captureStatus.enabled ? false : true
+    if ( !captureStatus.enabled ) {
+        captureStatus.enabled = true;
+    }
+    //captureStatus.enabled = captureStatus.enabled ? false : true
     
     common.getCurrentTabId(function (tabId) {
         common.changeIcon( captureStatus.enabled, tabId )

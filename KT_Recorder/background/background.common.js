@@ -10,12 +10,12 @@ const Common = (function () {
 
     Common.prototype.changeIcon = function ( enabled, tabId ) {
         chrome.browserAction.setIcon({
-            path: enabled ? '../images/record_on.png' : '../images/record_off.png',
+            path: '../images/record_on.png',
             tabId: tabId
         });
     
         chrome.browserAction.setTitle({
-            title: enabled ? '녹화 가능' : '녹화 불가능',
+            title: '녹화 가능',
             tabId: tabId
         });
     }
